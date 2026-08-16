@@ -17,6 +17,10 @@ interface GoogleBooksVolume {
     imageLinks?: {
       thumbnail?: string;
       smallThumbnail?: string;
+      small?: string;
+      medium?: string;
+      large?: string;
+      extraLarge?: string;
     };
     language?: string;
   };
@@ -36,7 +40,13 @@ export function transformGoogleBook(volume: GoogleBooksVolume): Book {
     title: volume.volumeInfo.title,
     authors: volume.volumeInfo.authors ?? [],
     description: volume.volumeInfo.description,
-    thumbnail: volume.volumeInfo.imageLinks?.thumbnail,
+    thumbnail:
+      volume.volumeInfo.imageLinks?.extraLarge ??
+      volume.volumeInfo.imageLinks?.large ??
+      volume.volumeInfo.imageLinks?.medium ??
+      volume.volumeInfo.imageLinks?.small ??
+      volume.volumeInfo.imageLinks?.thumbnail ??
+      volume.volumeInfo.imageLinks?.smallThumbnail,
     publishedDate: volume.volumeInfo.publishedDate,
     publisher: volume.volumeInfo.publisher,
     isbn10,

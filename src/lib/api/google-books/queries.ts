@@ -17,6 +17,10 @@ interface GoogleBooksVolumeInfo {
   imageLinks?: {
     thumbnail?: string;
     smallThumbnail?: string;
+    small?: string;
+    medium?: string;
+    large?: string;
+    extraLarge?: string;
   };
   language?: string;
 }
