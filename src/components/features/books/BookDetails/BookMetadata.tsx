@@ -6,28 +6,42 @@ interface BookMetadataProps {
 
 export function BookMetadata({ book }: BookMetadataProps) {
   return (
-    <div className="mt-5 flex gap-20 text-sm">
-      <div className="flex flex-col gap-2">
-        {book.publisher && <MetadataItem label="Publisher" value={book.publisher} />}
+    <dl className="mt-6 grid grid-cols-[auto_1fr] gap-x-6 gap-y-2 text-xs">
+      {book.publisher && <MetadataItem label="Publisher" value={book.publisher} />}
 
-        {book.publishedDate && (
-          <MetadataItem
-            label="Publish Date"
-            value={new Date(book.publishedDate).toLocaleDateString('en-US')}
-          />
-        )}
+      {book.publishedDate && (
+        <MetadataItem
+          label="Published"
+          value={new Date(book.publishedDate).toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+          })}
+        />
+      )}
 
-        {book.isbn13 && <MetadataItem label="ISBN-13" value={book.isbn13} />}
-      </div>
+      {book.pageCount && <MetadataItem label="Pages" value={book.pageCount} />}
 
-      <div className="flex flex-col gap-2">
-        {book.isbn10 && <MetadataItem label="ISBN-10" value={book.isbn10} />}
+      {book.language && <MetadataItem label="Language" value={book.language} />}
 
-        {book.pageCount && <MetadataItem label="Pages" value={book.pageCount} />}
+      {book.isbn13 && <MetadataItem label="ISBN-13" value={book.isbn13} />}
 
-        {book.language && <MetadataItem label="Language" value={book.language} />}
-      </div>
-    </div>
+      {book.isbn10 && <MetadataItem label="ISBN-10" value={book.isbn10} />}
+
+      {(book.categories?.length ?? 0) > 0 && (
+        <>
+          <dt className="font-medium text-emerald-900">Categories</dt>
+          <dd className="text-zinc-950">
+            {book.categories?.map((category, index) => (
+              <span key={category}>
+                {index > 0 && <span className="mx-2 text-emerald-900">•</span>}
+                {category}
+              </span>
+            ))}
+          </dd>
+        </>
+      )}
+    </dl>
   );
 }
 
@@ -38,9 +52,9 @@ interface MetadataItemProps {
 
 function MetadataItem({ label, value }: MetadataItemProps) {
   return (
-    <div className="text-xs">
-      <div className="font-medium text-emerald-900">{label}</div>
-      {value}
-    </div>
+    <>
+      <dt className="font-medium text-emerald-900">{label}</dt>
+      <dd className="text-zinc-950">{value}</dd>
+    </>
   );
 }

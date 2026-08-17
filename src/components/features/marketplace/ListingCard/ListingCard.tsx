@@ -1,12 +1,11 @@
-import { Listing } from '@/types/listing';
 import { Button } from '@/components/ui/Button/Button';
+import { ListingWithSeller } from '@/types/marketplace';
 
 interface ListingCardProps {
-  listing: Listing;
-  sellerName?: string;
+  listing: ListingWithSeller;
 }
 
-export function ListingCard({ listing, sellerName }: ListingCardProps) {
+export function ListingCard({ listing }: ListingCardProps) {
   return (
     <article className="rounded-md p-4">
       <div className="flex items-start justify-between gap-4">
@@ -27,11 +26,9 @@ export function ListingCard({ listing, sellerName }: ListingCardProps) {
 
       <p className="mt-4 text-sm text-gray-600">{listing.description}</p>
 
-      {sellerName && (
-        <p className="mt-4 text-sm">
-          Listed by <span className="text-emerald-900">{sellerName}</span>
-        </p>
-      )}
+      <p className="mt-4 text-sm">
+        Listed by <span className="text-emerald-900">{listing.sellerName}</span>
+      </p>
 
       <Button className="mt-5" variant={listing.type === 'sale' ? 'primary' : 'secondary'}>
         {listing.type === 'sale' ? 'Buy this book' : 'Rent this book'}

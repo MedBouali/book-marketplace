@@ -1,10 +1,9 @@
 import { Metadata } from 'next';
-import { notFound } from 'next/navigation';
 import { BookDetails } from '@/components/features/books/BookDetails/BookDetails';
 import { getBookById } from '@/lib/api/google-books/queries';
 import { siteConfig } from '@/lib/constants/site';
-import { getListingsByBookId } from '@/lib/api/mock-api/listings';
 import { ListingGrid } from '@/components/features/marketplace/ListingGrid/ListingGrid';
+import { getBookPageData } from './_lib/queries';
 
 interface BookPageProps {
   params: Promise<{
@@ -46,25 +45,9 @@ export async function generateMetadata({ params }: BookPageProps): Promise<Metad
   }
 }
 
-async function getBookOrNotFound(bookId: string) {
-  const [bookResult, listingsResult] = await Promise.allSettled([
-    getBookById(bookId),
-    getListingsByBookId(bookId),
-  ]);
-
-  if (bookResult.status === 'rejected') {
-    notFound();
-  }
-
-  const book = bookResult.value;
-  const listings = listingsResult.status === 'fulfilled' ? listingsResult.value : [];
-
-  return [book, listings] as const;
-}
-
 export default async function BookPage({ params }: BookPageProps) {
   const { bookId } = await params;
-  const [book, listings] = await getBookOrNotFound(bookId);
+  const { book, listings } = await getBookPageData(bookId);
 
   return (
     <main className="mx-auto max-w-7xl px-6 py-12">

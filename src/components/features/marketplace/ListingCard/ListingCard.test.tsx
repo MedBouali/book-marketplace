@@ -15,6 +15,7 @@ describe('ListingCard', () => {
           description: 'Very good condition.',
           available: true,
           createdAt: '2026-08-16T10:00:00.000Z',
+          sellerName: 'user-name-1',
         }}
       />,
     );
@@ -22,6 +23,7 @@ describe('ListingCard', () => {
     expect(screen.getByText('sale')).toBeInTheDocument();
     expect(screen.getByText('$12.00')).toBeInTheDocument();
     expect(screen.getByText('Buy this book')).toBeInTheDocument();
+    expect(screen.getByText('Listed by user-name-1')).toBeInTheDocument();
   });
 
   it('renders a rental listing', () => {
@@ -37,6 +39,7 @@ describe('ListingCard', () => {
           description: 'Good condition.',
           available: true,
           createdAt: '2026-08-16T10:00:00.000Z',
+          sellerName: 'user-name-2',
         }}
       />,
     );
@@ -44,5 +47,6 @@ describe('ListingCard', () => {
     expect(screen.getByText('rent')).toBeInTheDocument();
     expect(screen.getByText('$4.00 / month')).toBeInTheDocument();
     expect(screen.getByText('Rent this book')).toBeInTheDocument();
+    expect(screen.getByText('Listed by user-name-2')).toBeInTheDocument();
   });
 });

@@ -1,9 +1,7 @@
 import { Book } from '@/types/book';
 import { BookCover } from './BookCover';
 import { BookMetadata } from './BookMetadata';
-import { BookActions } from './BookActions';
 import { BookDescription } from './BookDescription';
-import { BookCategories } from './BookCategories';
 
 interface BookDetailsProps {
   book: Book;
@@ -24,11 +22,9 @@ export function BookDetails({ book }: BookDetailsProps) {
         )}
 
         <BookMetadata book={book} />
-        <BookActions />
       </div>
 
       <BookDescription description={book.description} />
-      <BookCategories categories={book.categories} />
     </article>
   );
 }
