@@ -1,5 +1,5 @@
 import { Listing } from '@/types/listing';
-import { mockApiFetch } from './client';
+import { MockApiError, mockApiFetch } from './client';
 
 export async function getListingById(listingId: string): Promise<Listing> {
   return mockApiFetch<Listing>(`/listings/${encodeURIComponent(listingId)}`);
@@ -15,11 +15,19 @@ export async function getListingsByBookId(bookId: string): Promise<Listing[]> {
 }
 
 export async function getListingsBySellerId(sellerId: string): Promise<Listing[]> {
-  return mockApiFetch<Listing[]>('/listings', {
-    params: {
-      sellerId,
-    },
-  });
+  try {
+    return await mockApiFetch<Listing[]>('/listings', {
+      params: {
+        sellerId,
+      },
+    });
+  } catch (error) {
+    if (error instanceof MockApiError && error.status === 404) {
+      return [];
+    }
+
+    throw error;
+  }
 }
 
 export async function createListings(listing: Omit<Listing, 'id'>): Promise<Listing> {

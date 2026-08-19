@@ -4,6 +4,7 @@ import { getBookById } from '@/lib/api/google-books/queries';
 import { siteConfig } from '@/lib/constants/site';
 import { ListingGrid } from '@/components/features/marketplace/ListingGrid/ListingGrid';
 import { getBookPageData } from './_lib/queries';
+import { EmptyState } from '@/components/ui/EmptyState/EmptyState';
 
 interface BookPageProps {
   params: Promise<{
@@ -62,13 +63,10 @@ export default async function BookPage({ params }: BookPageProps) {
 
         <div className="mt-6">
           {listings.length === 0 ? (
-            <div className="p-10 text-center text-emerald-900">
-              <h3 className="font-semibold">No listings available</h3>
-
-              <p className="mt-2 text-sm text-gray-600">
-                There are currently no listings for this book.
-              </p>
-            </div>
+            <EmptyState
+              title="No listings available"
+              description="There are currently no listings for this book."
+            />
           ) : (
             <ListingGrid listings={listings} />
           )}

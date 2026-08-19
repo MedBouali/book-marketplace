@@ -4,6 +4,16 @@ if (!MOCK_API_URL) {
   throw new Error('MOCK_API_URL is not configured');
 }
 
+export class MockApiError extends Error {
+  constructor(
+    public readonly status: number,
+    message: string,
+  ) {
+    super(message);
+    this.name = 'MockApiError';
+  }
+}
+
 interface RequestOptions extends RequestInit {
   params?: Record<string, string | number | boolean | undefined>;
 }
@@ -30,7 +40,10 @@ export async function mockApiFetch<T>(path: string, options: RequestOptions = {}
   });
 
   if (!response.ok) {
-    throw new Error(`Mock API request failed: ${response.status} ${response.statusText}`);
+    throw new MockApiError(
+      response.status,
+      `Mock API request failed: ${response.status} ${response.statusText}`,
+    );
   }
 
   return response.json() as Promise<T>;

@@ -1,4 +1,5 @@
 import BookGrid from '@/components/features/books/BookGrid/BookGrid';
+import { EmptyState } from '@/components/ui/EmptyState/EmptyState';
 import { searchBooks } from '@/lib/api/google-books/queries';
 
 interface SearchPageProps {
@@ -34,11 +35,10 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
       </div>
 
       {books.length === 0 ? (
-        <div className="rounded-xl border border-dashed p-12 text-center">
-          <h2 className="text-lg font-semibold">No books found</h2>
-
-          <p className="mt-2 text-gray-500">Try searching for a different title or author.</p>
-        </div>
+        <EmptyState
+          title="No books found"
+          description="Try searching for a different title or author."
+        />
       ) : (
         <BookGrid books={books} />
       )}
