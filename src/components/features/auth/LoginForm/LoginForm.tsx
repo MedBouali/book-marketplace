@@ -6,6 +6,7 @@ import { FormField } from '@/components/ui/FormField/FormField';
 import { Input } from '@/components/ui/Input/Input';
 import { signIn } from 'next-auth/react';
 import { useState } from 'react';
+import Link from 'next/link';
 
 export function LoginForm() {
   const router = useRouter();
@@ -66,6 +67,13 @@ export function LoginForm() {
       <Button type="submit" className="w-full" disabled={isSubmitting}>
         {isSubmitting ? 'Signing in...' : 'Sign in'}
       </Button>
+
+      <p className="text-center text-sm text-gray-600">
+        Don`t have an account?{' '}
+        <Link href="/register" className="font-medium text-emerald-900 hover:underline">
+          Sign up
+        </Link>
+      </p>
     </form>
   );
 }

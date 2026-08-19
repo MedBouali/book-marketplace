@@ -1,6 +1,7 @@
 import NextAuth from 'next-auth';
 import Credentials from 'next-auth/providers/credentials';
 import { getUserByEmail } from './lib/api/mock-api/users';
+import { verifyPassword } from './lib/auth/password';
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   providers: [
@@ -21,13 +22,17 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           return null;
         }
 
-        const user = await getUserByEmail(credentials.email);
+        const email = credentials.email.trim().toLowerCase();
+
+        const user = await getUserByEmail(email);
 
         if (!user) {
           return null;
         }
 
-        if (credentials.password !== user.passwordHash) {
+        const isValidPassword = await verifyPassword(credentials.password, user.passwordHash);
+
+        if (!isValidPassword) {
           return null;
         }
 
